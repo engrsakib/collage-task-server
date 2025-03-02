@@ -69,10 +69,10 @@ async function run() {
     // );
 
     // database filed create
-    const ToDoAppsUsers = client.db("ToDoApps").collection("users");
-    const ToDoAppsTask = client.db("ToDoApps").collection("Tasks");
-    const bloodCallectionBlogs = client.db("ToDoApps").collection("blogs");
-    const bloodCallectionFund = client.db("ToDoApps").collection("funds");
+    const CollageAppsUsers = client.db("CollageApps").collection("users");
+    const CollageAppsTask = client.db("CollageApps").collection("Tasks");
+    const bloodCallectionBlogs = client.db("CollageApps").collection("blogs");
+    const bloodCallectionFund = client.db("CollageApps").collection("funds");
 
     // user related query
     // get users
@@ -80,7 +80,7 @@ async function run() {
       try {
         const email = req.params.mail;
 
-        const result = await ToDoAppsUsers.findOne({ email });
+        const result = await CollageAppsUsers.findOne({ email });
 
         if (!result) {
           return res.status(404).send({ message: "User not found" });
@@ -124,7 +124,7 @@ async function run() {
       const newUser = req.body;
 
       try {
-        const existingUser = await ToDoAppsUsers.findOne({
+        const existingUser = await CollageAppsUsers.findOne({
           email: newUser.email,
         });
 
@@ -135,7 +135,7 @@ async function run() {
             .send({ message: "User with this email already exists." });
         }
 
-        const result = await ToDoAppsUsers.insertOne(newUser);
+        const result = await CollageAppsUsers.insertOne(newUser);
         res.status(201).send(result);
       } catch (error) {
         console.error("Error inserting user:", error);
@@ -157,11 +157,12 @@ async function run() {
             gender: updateData.gender,
             district: updateData.district,
             upazila: updateData.upazila,
+            university: updateData.university,
             lastDonation: updateData.lastDonation || null,
           },
         };
 
-        const result = await ToDoAppsUsers.updateOne(filter, updateDoc);
+        const result = await CollageAppsUsers.updateOne(filter, updateDoc);
 
         if (result.matchedCount === 0) {
           return res
@@ -182,7 +183,7 @@ async function run() {
     // all users
     app.get("/users", async (req, res) => {
       try {
-        const result = await ToDoAppsUsers.find({}).toArray();
+        const result = await CollageAppsUsers.find({}).toArray();
 
         if (!result || result.length === 0) {
           return res.status(404).send({ message: "No users found" });
@@ -208,7 +209,7 @@ async function run() {
         // console.log("User ID:", id);
         // console.log("Status:", status);
 
-        const result = await ToDoAppsUsers.updateOne(
+        const result = await CollageAppsUsers.updateOne(
           { _id: new ObjectId(id) }, // Make sure ObjectId is imported correctly
           { $set: { status: status } } // Correctly set the status field
         );
@@ -230,7 +231,7 @@ async function run() {
     app.delete("/users/:id", async (req, res) => {
       try {
         const { id } = req.params;
-        const result = await ToDoAppsUsers.deleteOne({
+        const result = await CollageAppsUsers.deleteOne({
           _id: new ObjectId(id),
         });
         res.send(result);
@@ -244,7 +245,7 @@ async function run() {
       try {
         const { id } = req.params;
         const { role } = req.body;
-        const result = await ToDoAppsUsers.updateOne(
+        const result = await CollageAppsUsers.updateOne(
           { _id: new ObjectId(id) },
           { $set: { role } }
         );
