@@ -270,12 +270,28 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
+    // home page university list
+    app.get("/university/home", async (req, res) => {
+      try {
+        const result = await UniversityList.find({}).limit(3).toArray();
+
+        if (!result || result.length === 0) {
+          return res.status(404).send({ message: "No university found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
 
     // university find id
     app.get("/university/:id", async (req, res) => {
       try {
         const { id } = req.params;
-          const paresIntId = parseInt(id);
+        const paresIntId = parseInt(id);
+        // console.log(paresIntId);
         const result = await UniversityList.findOne({ _id: paresIntId });
 
         if (!result) {
@@ -288,9 +304,6 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
-
-
-
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
