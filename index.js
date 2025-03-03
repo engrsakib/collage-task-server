@@ -73,7 +73,7 @@ async function run() {
     const CollageAppsUsers = client.db("CollageApps").collection("users");
     const UniversityList = client.db("CollageApps").collection("university");
     const admissionApp = client.db("CollageApps").collection("admission");
-    const bloodCallectionFund = client.db("CollageApps").collection("funds");
+    const feedBackApp = client.db("CollageApps").collection("feedback");
 
     // user related query
     // get users
@@ -380,6 +380,24 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
+
+    // feedback post
+    app.post("/feedback", async (req, res) => {
+      const newUser = req.body;
+
+      try {
+        const result = await feedBackApp.insertOne(newUser);
+        res.status(201).send(result);
+      } catch (error) {
+        console.error("Error inserting user:", error);
+        res.status(500).send({ message: "Internal Server Error" });
+      }
+    });
+
+
+
+
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
