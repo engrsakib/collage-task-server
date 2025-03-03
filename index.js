@@ -387,12 +387,29 @@ async function run() {
 
       try {
         const result = await feedBackApp.insertOne(newUser);
-        res.status(201).send(result);
+        res.status(200).send(result);
       } catch (error) {
         console.error("Error inserting user:", error);
         res.status(500).send({ message: "Internal Server Error" });
       }
     });
+    
+    // all feedback
+    app.get("/feedback", async (req, res) => {
+      try {
+        const result = await feedBackApp.find({}).toArray();
+
+        if (!result || result.length === 0) {
+          return res.status(404).send({ message: "No feedback found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching feedback:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
+    
 
 
 
