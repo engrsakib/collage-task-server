@@ -70,7 +70,7 @@ async function run() {
 
     // database filed create
     const CollageAppsUsers = client.db("CollageApps").collection("users");
-    const CollageAppsTask = client.db("CollageApps").collection("Tasks");
+    const UniversityList = client.db("CollageApps").collection("university");
     const bloodCallectionBlogs = client.db("CollageApps").collection("blogs");
     const bloodCallectionFund = client.db("CollageApps").collection("funds");
 
@@ -254,6 +254,43 @@ async function run() {
         res.status(500).send({ message: "Failed to update role" });
       }
     });
+
+    // university list
+    app.get("/university", async (req, res) => {
+      try {
+        const result = await UniversityList.find({}).toArray();
+
+        if (!result || result.length === 0) {
+          return res.status(404).send({ message: "No university found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
+
+    // university find id
+    app.get("/university/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+          const paresIntId = parseInt(id);
+        const result = await UniversityList.findOne({ _id: paresIntId });
+
+        if (!result) {
+          return res.status(404).send({ message: "University not found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching university:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
+
+
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
