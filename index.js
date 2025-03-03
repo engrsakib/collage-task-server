@@ -71,7 +71,7 @@ async function run() {
     // database filed create
     const CollageAppsUsers = client.db("CollageApps").collection("users");
     const UniversityList = client.db("CollageApps").collection("university");
-    const bloodCallectionBlogs = client.db("CollageApps").collection("blogs");
+    const admissionApp = client.db("CollageApps").collection("admission");
     const bloodCallectionFund = client.db("CollageApps").collection("funds");
 
     // user related query
@@ -304,6 +304,42 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
+
+    // addmission post
+    app.post("/admission", async (req, res) => {
+      const newUser = req.body;
+
+      try {
+        const result = await admissionApp.insertOne(newUser);
+        res.status(201).send(result);
+      } catch (error) {
+        console.error("Error inserting user:", error);
+        res.status(500).send({ message: "Internal Server Error" });
+      }
+    });
+    // Image update
+    app.patch("/users/:id", async (req, res) => {
+      try {
+        const { photoUrl } = req.body;
+        const userId = req.params.id;
+    
+        const updatedUser = await CollageAppsUsers.updateOne(
+          { _id: userId },
+          { $set: { photoUrl } }
+        );
+    
+        if (updatedUser.modifiedCount === 0) {
+          return res.status(404).json({ success: false, message: "User not found" });
+        }
+    
+        res.status(200).json({ success: true, message: "User photo updated!" });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Error updating photo!" });
+      }
+    });
+    
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
