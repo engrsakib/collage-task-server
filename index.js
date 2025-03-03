@@ -5,6 +5,7 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const e = require("express");
 const stripe = require("stripe")(process.env.PAYMENT_SECRET);
 const port = process.env.PORT || 5000;
 //
@@ -305,6 +306,25 @@ async function run() {
       }
     });
 
+    // university find by title
+    app.get("/my-university/:university", async (req, res) => {
+      try {
+        const university = req.params.university;
+        // console.log(university);
+
+        const result = await UniversityList.findOne({ name: university });
+
+        if (!result) {
+          return res.status(404).send({ message: "University not found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching university:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
+
     // addmission post
     app.post("/admission", async (req, res) => {
       const newUser = req.body;
@@ -322,24 +342,44 @@ async function run() {
       try {
         const { photoUrl } = req.body;
         const userId = req.params.id;
-    
+
         const updatedUser = await CollageAppsUsers.updateOne(
           { _id: userId },
           { $set: { photoUrl } }
         );
-    
+
         if (updatedUser.modifiedCount === 0) {
-          return res.status(404).json({ success: false, message: "User not found" });
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
         }
-    
+
         res.status(200).json({ success: true, message: "User photo updated!" });
       } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: "Error updating photo!" });
+        res
+          .status(500)
+          .json({ success: false, message: "Error updating photo!" });
       }
     });
-    
 
+    // admited user
+    app.get("/admission/:mail", async (req, res) => {
+      try {
+        const email = req.params.mail;
+        // console.log(email);
+        const result = await admissionApp.findOne({ email });
+
+        if (!result) {
+          return res.status(404).send({ message: "User not found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
