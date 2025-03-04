@@ -74,6 +74,7 @@ async function run() {
     const UniversityList = client.db("CollageApps").collection("university");
     const admissionApp = client.db("CollageApps").collection("admission");
     const feedBackApp = client.db("CollageApps").collection("feedback");
+    const researchApp = client.db("CollageApps").collection("research");
 
     // user related query
     // get users
@@ -411,7 +412,21 @@ async function run() {
     });
     
 
+    // research get
+    app.get("/research", async (req, res) => {
+      try {
+        const result = await researchApp.find({}).toArray();
 
+        if (!result || result.length === 0) {
+          return res.status(404).send({ message: "No feedback found" });
+        }
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching feedback:", error);
+        res.status(500).send({ message: "Internal server error" });
+      }
+    });
 
 
 
