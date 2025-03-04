@@ -1,20 +1,19 @@
-### TaskStorm Backend - README  
-
-# TaskStorm Backend  
+# 🎓 AcadEase - College Booking System Backend  
 
 ## 🔹 Short Description  
-TaskStorm is a full-stack task management application where users can add, edit, delete, and reorder tasks using a drag-and-drop interface. The backend is built with Express.js, MongoDB, and other essential dependencies to manage tasks in real-time while ensuring data persistence.  
+AcadEase is a MERN stack-based college booking platform where users can search for colleges, view details, and book admissions seamlessly. The platform features an intuitive search system, college information display, and a streamlined admission process.
+  
 
 ## 📺 Project Overview Video
-[![TaskStorm - Task Management App](https://img.youtube.com/vi/LrYQfnD70tA/0.jpg)](https://youtu.be/LrYQfnD70tA)
+![AcadEase Screenshot](https://i.ibb.co.com/SXsBdhyY/image.png)
 
-🔗 **Watch the full demo here:** [TaskStorm - Task Management App](https://youtu.be/LrYQfnD70tA)
+
 
 
 ## 🔹 Live Links  
 - **Frontend Live:** [TaskStorm Live](https://engrsakib-todo-applications.surge.sh/)  
-- **Backend Repository:** [GitHub - Backend](https://github.com/engrsakib/simple-ToDo-Backend)  
-- **Frontend Repository:** [GitHub - Frontend](https://github.com/engrsakib/simple-ToDo-frontend)  
+- **Backend Repository:** [GitHub - Backend](https://github.com/engrsakib/collage-task-server)  
+- **Frontend Repository:** [GitHub - Frontend](https://github.com/engrsakib/collage-task-client)  
 - **Website:** [Md. Nazmus Sakib](https://www.engrsakib.com/)  
 - **Contact:** info@engrsakib.com  
 
@@ -41,8 +40,8 @@ Follow these steps to set up and run the backend server:
 
 1️⃣ **Clone the repository**  
 ```bash
-git clone https://github.com/engrsakib/simple-ToDo-Backend.git
-cd simple-ToDo-Backend
+git clone https://github.com/engrsakib/collage-task-server.git
+cd collage-task-server
 ```  
 
 2️⃣ **Install dependencies**  

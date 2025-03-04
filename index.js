@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://engrsakib-todo-applications.surge.sh",
+      "https://engrsakib-simple-school-tasks.surge.sh",
     ], // Replace with your React app's URL
     credentials: true, // Allow credentials (cookies)
   })
@@ -246,10 +246,10 @@ async function run() {
     app.put("/users/role/:id", async (req, res) => {
       try {
         const { id } = req.params;
-        const { role } = req.body;
+        const { university } = req.body;
         const result = await CollageAppsUsers.updateOne(
           { _id: new ObjectId(id) },
-          { $set: { role } }
+          { $set: { university } }
         );
         res.send(result);
       } catch (error) {
@@ -272,6 +272,9 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
+
+    // admission patch
+
 
     // search university for serching query
     app.get("/university/search/:search", async (req, res) => {
