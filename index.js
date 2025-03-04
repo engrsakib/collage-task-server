@@ -273,7 +273,7 @@ async function run() {
       }
     });
 
-    // search university
+    // search university for serching query
     app.get("/university/search/:search", async (req, res) => {
       const search = req.params.search;
       // console.log(search);
