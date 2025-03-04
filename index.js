@@ -272,6 +272,23 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
+
+    // search university
+    app.get("/university/search/:search", async (req, res) => {
+      const search = req.params.search;
+      // console.log(search);
+      try {
+        const result = await UniversityList.find({
+          name: { $regex: search, $options: "i" },
+        }).toArray();
+
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        res.status(500).send({ error: "Failed to fetch search results" });
+      }
+    });
+
     // home page university list
     app.get("/university/home", async (req, res) => {
       try {
@@ -394,7 +411,7 @@ async function run() {
         res.status(500).send({ message: "Internal Server Error" });
       }
     });
-    
+
     // all feedback
     app.get("/feedback", async (req, res) => {
       try {
@@ -410,7 +427,6 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
-    
 
     // research get
     app.get("/research", async (req, res) => {
@@ -427,9 +443,6 @@ async function run() {
         res.status(500).send({ message: "Internal server error" });
       }
     });
-
-
-
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
